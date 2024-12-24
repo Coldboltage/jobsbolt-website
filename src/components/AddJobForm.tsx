@@ -12,7 +12,7 @@ const AddJobForm = () => {
   const [link, setLink] = useState("")
   const [jobDescription, setJobDescription] = useState("")
 
-  const addNewJobSubmit = async (e) => {
+  const addNewJobSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const jwtToken = localStorage.getItem('jwtToken')
     const response = await fetch(`http://localhost:3000/job/add-job-manually`, {

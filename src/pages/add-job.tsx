@@ -23,13 +23,13 @@ const AddJobPage = ({ token: initialToken }: { token: string }) => {
 
 export default AddJobPage
 
-export const getServerSideProps = async (context) => {
-  // const token = process.env.NEXT_PUBLIC_API_URL_JWT_TOKEN
+import { GetServerSideProps } from 'next';
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context;
 
-  // Parse cookies from the request
   const cookies = cookie.parse(req.headers.cookie || '');
-  const token = cookies.jwt || null; // Explicitly set to null if not present
+  const token = cookies.jwt || null;
 
 
   return {
