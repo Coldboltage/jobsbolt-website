@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { interestStateClick } from '../utils/interestStateClick'
 
 const SingleJob = ({ job, setRefresh }: { job: Job, setRefresh: React.Dispatch<React.SetStateAction<boolean>> }) => {
-
+  console.log(job)
 
   return (
     <div className="grid grid-cols-2 py-5 items-start border-t-[1px] border-t-slate-600">

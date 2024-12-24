@@ -2,8 +2,10 @@ import React from 'react'
 import { Job } from '../../types/job'
 import MainLayout from '../../layout/MainLayout'
 import DefaultJobPage from '../../components/DefaultJobPage'
+import * as cookie from 'cookie';
 
 const JobPage = ({ job }: { job: Job }) => {
+  console.log(job.companyName)
 
   return (
     <MainLayout>
@@ -26,18 +28,22 @@ interface JobPageProps {
 }
 
 export const getServerSideProps: GetServerSideProps<JobPageProps, ContextParams> = async (context) => {
-  const JWT = process.env.NEXT_PUBLIC_API_URL_JWT_TOKEN
+  const { req } = context;
+
+  const cookies = cookie.parse(req.headers.cookie || '');
+  const token = cookies.jwt || null;
+
   if (!context.params) {
     return {
       notFound: true,
     }
   }
 
-  const res = await fetch(`http://${process.env.API_URL}:3000/job/${context.params.id}`, {
+  const res = await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}:3000/job/${context.params.id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${JWT}`, // JWT as a Bearer Token
+      'Authorization': `Bearer ${token}`, // JWT as a Bearer Token
     }
   })
   const data: Job = await res.json()

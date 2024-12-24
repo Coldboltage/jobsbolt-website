@@ -1,8 +1,9 @@
+import * as cookie from 'cookie';
 import React, { useState } from 'react'
 import MainLayout from '../layout/MainLayout'
 import Login from '../components/Login'
 import AddJob from '../components/AddJob'
-import cookie from 'cookie';
+import { GetServerSideProps } from 'next';
 
 
 
@@ -23,7 +24,6 @@ const AddJobPage = ({ token: initialToken }: { token: string }) => {
 
 export default AddJobPage
 
-import { GetServerSideProps } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context;
