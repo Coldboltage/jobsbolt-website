@@ -5,10 +5,10 @@ import { Job } from '../types/job'
 import cookie from 'cookie';
 
 
-const JobsPage = ({ pendingInterestJobs, interestedJobs, coverReadyJobs }: { pendingInterestJobs: Job[], interestedJobs: Job[], coverReadyJobs: Job[] }) => {
+const JobsPage = ({ token, pendingInterestJobs, interestedJobs, coverReadyJobs }: { token: string, pendingInterestJobs: Job[], interestedJobs: Job[], coverReadyJobs: Job[] }) => {
   return (
     <MainLayout>
-      <JobsList pendingInterestJobs={pendingInterestJobs} interestedJobs={interestedJobs} coverReadyJobs={coverReadyJobs} />
+      <JobsList jwt={token} pendingInterestJobs={pendingInterestJobs} interestedJobs={interestedJobs} coverReadyJobs={coverReadyJobs} />
 
     </MainLayout>
   )
@@ -48,7 +48,7 @@ export const getServerSideProps = async (context) => {
   })
   const dataCoverReady = await resCoverReady.json()
   return {
-    props: { pendingInterestJobs: dataPendingInterest, interestedJobs: dataInterestedJobs, coverReadyJobs: dataCoverReady }
+    props: { token, pendingInterestJobs: dataPendingInterest, interestedJobs: dataInterestedJobs, coverReadyJobs: dataCoverReady }
   }
 }
 

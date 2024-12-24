@@ -4,7 +4,7 @@ import { Job } from '../types/job'
 import JobStage from './JobStage'
 
 
-const JobsList = ({ pendingInterestJobs, interestedJobs, coverReadyJobs }: { pendingInterestJobs: Job[], interestedJobs: Job[], coverReadyJobs: Job[] }) => {
+const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: { jwt: string, pendingInterestJobs: Job[], interestedJobs: Job[], coverReadyJobs: Job[] }) => {
   const [jobs, setJobs] = useState(pendingInterestJobs as Job[])
   const [updatedPendingInterestJobs, setUpdatedPendingInterestJobs] = useState(pendingInterestJobs as Job[])
   const [updatedInterestedJobs, setUpdatedInterestedJobs] = useState(interestedJobs as Job[])
@@ -16,12 +16,11 @@ const JobsList = ({ pendingInterestJobs, interestedJobs, coverReadyJobs }: { pen
   useEffect(() => {
     if (!refresh) return
     const fetchJobs = async () => {
-      const JWT = process.env.NEXT_PUBLIC_API_URL_JWT_TOKEN
       const res = await fetch(jobUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${JWT}`, // JWT as a Bearer Token
+          'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
         }
       })
       const data = await res.json()
