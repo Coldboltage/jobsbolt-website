@@ -14,14 +14,15 @@ const JobsPage = ({ token, pendingInterestJobs, interestedJobs, coverReadyJobs }
   )
 }
 
-export const getServerSideProps = async (context) => {
-  // const token = process.env.NEXT_PUBLIC_API_URL_JWT_TOKEN
+import { GetServerSideProps } from 'next';
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context;
 
   // Parse cookies from the request
   const cookies = cookie.parse(req.headers.cookie || '');
   const token = cookies.jwt;
-  const resPendingInterest = await fetch('http://localhost:3000/job/pending-interested', {
+  const resPendingInterest = await fetch(`http://${process.env.API_URL}:3000/job/pending-interested`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ export const getServerSideProps = async (context) => {
   })
   const dataPendingInterest = await resPendingInterest.json()
 
-  const resInterestedJobs = await fetch('http://localhost:3000/job/interested-jobs', {
+  const resInterestedJobs = await fetch(`http://${process.env.API_URL}:3000/job/interested-jobs`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ export const getServerSideProps = async (context) => {
   })
   const dataInterestedJobs = await resInterestedJobs.json()
 
-  const resCoverReady = await fetch('http://localhost:3000/job/cover-letter-to-apply', {
+  const resCoverReady = await fetch(`http://${process.env.API_URL}:3000/job/cover-letter-to-apply`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
