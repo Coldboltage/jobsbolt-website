@@ -9,7 +9,7 @@ const Login = () => {
 
 
 
-  const fetchJwt = async (e) => {
+  const fetchJwt = async (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault()
     const response = await fetch('http://localhost:3000/auth/login', {
       method: 'POST',
