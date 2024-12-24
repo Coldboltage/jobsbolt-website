@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import MainLayout from '../layout/MainLayout'
 import Login from '../components/Login'
 import AddJob from '../components/AddJob'
 import cookie from 'cookie';
 
 
-const AddJobPage = ({ token: initialToken }) => {
-  const [token, setToken] = useState(initialToken || "")
+
+const AddJobPage = ({ token: initialToken }: { token: string }) => {
+  const [token] = useState(initialToken || "")
 
 
   return (

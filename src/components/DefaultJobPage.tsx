@@ -29,7 +29,7 @@ const DefaultJobPage = ({ initialJob }: { initialJob: Job }) => {
       setRefresh(false)
     }
     fetchJob()
-  }, [refresh])
+  }, [job.id, refresh])
 
   const sendUserPitch = async () => {
     const JWT = process.env.NEXT_PUBLIC_API_URL_JWT_TOKEN

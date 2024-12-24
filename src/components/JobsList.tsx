@@ -6,9 +6,9 @@ import JobStage from './JobStage'
 
 const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: { jwt: string, pendingInterestJobs: Job[], interestedJobs: Job[], coverReadyJobs: Job[] }) => {
   const [jobs, setJobs] = useState(pendingInterestJobs as Job[])
-  const [updatedPendingInterestJobs, setUpdatedPendingInterestJobs] = useState(pendingInterestJobs as Job[])
-  const [updatedInterestedJobs, setUpdatedInterestedJobs] = useState(interestedJobs as Job[])
-  const [updatedCoverReadyJobs, setUpdatedCoverReadyJobs] = useState(Array.isArray(coverReadyJobs) ? coverReadyJobs as Job[] : [])
+  const [updatedPendingInterestJobs] = useState(pendingInterestJobs as Job[])
+  const [updatedInterestedJobs] = useState(interestedJobs as Job[])
+  const [updatedCoverReadyJobs] = useState(Array.isArray(coverReadyJobs) ? coverReadyJobs as Job[] : [])
 
   const [refresh, setRefresh] = useState(false)
   const [jobUrl, setJobUrl] = useState('http://localhost:3000/job/pending-interested')
@@ -28,7 +28,7 @@ const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: 
       setRefresh(false)
     }
     fetchJobs()
-  }, [refresh])
+  }, [jobUrl, jwt, refresh])
 
   return (
     <div className="min-h-screen bg-gray-700 py-10">
