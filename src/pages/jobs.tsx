@@ -22,6 +22,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // Parse cookies from the request
   const cookies = cookie.parse(req.headers.cookie || '');
   const token = cookies.jwt;
+  console.log(token)
+  console.log(process.env.NEXT_PUBLIC_API_URL)
+
   const resPendingInterest = await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}:3000/job/pending-interested`, {
     method: 'GET',
     headers: {
