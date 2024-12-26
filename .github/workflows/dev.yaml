@@ -36,9 +36,10 @@ jobs:
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL}}
         run: |
-          --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
-          -t coldbolt/jobsbolt-website:dev-latest \
-          -t coldbolt/jobsbolt-website:${{ env.DATE_TAG }}-dev .
+          docker build \
+            --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+            -t coldbolt/jobsbolt-website:dev-latest \
+            -t coldbolt/jobsbolt-website:${{ env.DATE_TAG }}-dev .
       - name: Push Docker Image
         run: |
           docker push coldbolt/jobsbolt-website:dev-latest
