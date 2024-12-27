@@ -15,7 +15,7 @@ const AddJobForm = () => {
   const addNewJobSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const jwtToken = localStorage.getItem('jwtToken')
-    const response = await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}:3000/job/add-job-manually`, {
+    const response = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/job/add-job-manually`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
