@@ -16,8 +16,8 @@ const DefaultJobPage = ({ initialJob }: { initialJob: Job }) => {
   useEffect(() => {
     if (!refresh) return
     const fetchJob = async () => {
-      const JWT = process.env.NEXT_PUBLIC_API_URL_JWT_TOKEN
-      const res = await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}:3000/job/${job.id}`, {
+      const JWT = process.env.NEXT_PUBLIC_SERVER_API_URL_JWT_TOKEN
+      const res = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/job/${job.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -32,8 +32,8 @@ const DefaultJobPage = ({ initialJob }: { initialJob: Job }) => {
   }, [job.id, refresh])
 
   const sendUserPitch = async () => {
-    const JWT = process.env.NEXT_PUBLIC_API_URL_JWT_TOKEN
-    await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}:3000/cover-letter/`, {
+    const JWT = process.env.NEXT_PUBLIC_SERVER_API_URL_JWT_TOKEN
+    await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/cover-letter/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,8 +46,8 @@ const DefaultJobPage = ({ initialJob }: { initialJob: Job }) => {
   }
 
   const applyToJob = async () => {
-    const JWT = process.env.NEXT_PUBLIC_API_URL_JWT_TOKEN
-    await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}:3000/job/application-state/${job.indeedId}/${true}`, {
+    const JWT = process.env.NEXT_PUBLIC_SERVER_API_URL_JWT_TOKEN
+    await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/job/application-state/${job.indeedId}/${true}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
