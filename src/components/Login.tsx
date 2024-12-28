@@ -12,7 +12,7 @@ const Login = () => {
   const fetchJwt = async (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault()
     console.log(process.env.NEXT_PUBLIC_CLIENT_API_URL)
-    const response = await fetch(`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/auth/login`, {
+    const response = await fetch(`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
