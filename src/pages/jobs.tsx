@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   console.log(process.env.NEXT_PUBLIC_SERVER_API_URL)
 
-  const resPendingInterest = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/job/pending-interested`, {
+  const resPendingInterest = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/pending-interested`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
   const dataPendingInterest = await resPendingInterest.json()
 
-  const resInterestedJobs = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/job/interested-jobs`, {
+  const resInterestedJobs = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/interested-jobs`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   })
   const dataInterestedJobs = await resInterestedJobs.json()
 
-  const resCoverReady = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/job/cover-letter-to-apply`, {
+  const resCoverReady = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/cover-letter-to-apply`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
