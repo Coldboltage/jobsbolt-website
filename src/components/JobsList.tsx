@@ -11,7 +11,7 @@ const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: 
   const [updatedCoverReadyJobs] = useState(Array.isArray(coverReadyJobs) ? coverReadyJobs as Job[] : [])
 
   const [refresh, setRefresh] = useState(false)
-  const [jobUrl, setJobUrl] = useState(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/pending-interested`)
+  const [jobUrl, setJobUrl] = useState(`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job/pending-interested`)
 
   useEffect(() => {
     if (!refresh) return
