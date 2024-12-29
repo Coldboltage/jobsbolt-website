@@ -4,12 +4,12 @@ import MainLayout from '../../layout/MainLayout'
 import DefaultJobPage from '../../components/DefaultJobPage'
 import * as cookie from 'cookie';
 
-const JobPage = ({ job }: { job: Job }) => {
+const JobPage = ({ job, jwt }: { job: Job, jwt: string }) => {
   console.log(job.companyName)
 
   return (
     <MainLayout>
-      <DefaultJobPage initialJob={job} />
+      <DefaultJobPage initialJob={job} jwt={jwt} />
     </MainLayout>
   )
 }
@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps<JobPageProps, ContextParams>
   const { req } = context;
 
   const cookies = cookie.parse(req.headers.cookie || '');
-  const token = cookies.jwt || null;
+  const jwt = cookies.jwt || null;
 
   if (!context.params) {
     return {
@@ -43,11 +43,11 @@ export const getServerSideProps: GetServerSideProps<JobPageProps, ContextParams>
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`, // JWT as a Bearer Token
+      'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Jwt
     }
   })
   const data: Job = await res.json()
   return {
-    props: { job: data }
+    props: { job: data, jwt }
   }
 }

@@ -5,7 +5,7 @@ import { interestStateClick } from '../utils/interestStateClick'
 import { Job } from '../types/job'
 import { useRouter } from 'next/router'
 
-const DefaultJobPage = ({ initialJob }: { initialJob: Job }) => {
+const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job, jwt: string }) => {
   const router = useRouter()
 
   const [job, setJob] = useState(initialJob as Job)
@@ -16,12 +16,12 @@ const DefaultJobPage = ({ initialJob }: { initialJob: Job }) => {
   useEffect(() => {
     if (!refresh) return
     const fetchJob = async () => {
-      const JWT = process.env.NEXT_PUBLIC_SERVER_API_URL_JWT_TOKEN
+
       const res = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/${job.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${JWT}`, // JWT as a Bearer Token
+          'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
         }
       })
       const data = await res.json()
@@ -29,15 +29,14 @@ const DefaultJobPage = ({ initialJob }: { initialJob: Job }) => {
       setRefresh(false)
     }
     fetchJob()
-  }, [job.id, refresh])
+  }, [job.id, jwt, refresh])
 
   const sendUserPitch = async () => {
-    const JWT = process.env.NEXT_PUBLIC_SERVER_API_URL_JWT_TOKEN
     await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/cover-letter/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${JWT}`, // JWT as a Bearer Token
+        'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
       },
       body: JSON.stringify({ jobId: job.id, userPitch: userPitch })
     })
@@ -46,12 +45,12 @@ const DefaultJobPage = ({ initialJob }: { initialJob: Job }) => {
   }
 
   const applyToJob = async () => {
-    const JWT = process.env.NEXT_PUBLIC_SERVER_API_URL_JWT_TOKEN
+
     await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/application-state/${job.indeedId}/${true}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${JWT}`, // JWT as a Bearer Token
+        'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
       },
     })
     console.log("Applied")
@@ -93,12 +92,12 @@ const DefaultJobPage = ({ initialJob }: { initialJob: Job }) => {
             {!job.interested ? (
               <>
                 <button onClick={() => {
-                  interestStateClick(job.id, false)
+                  interestStateClick(job.id, false, jwt)
                   router.push('/jobs')
                 }} className="bg-red-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold mr-5">
                   Not Interested
                 </button>
-                <button onClick={() => interestStateClick(job.id, true, setRefresh)} className="bg-green-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold">
+                <button onClick={() => interestStateClick(job.id, true, jwt, setRefresh)} className="bg-green-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold">
                   Interested
                 </button>
               </>) : job.interested === true && job.coverLetter === null ? (

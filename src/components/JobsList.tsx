@@ -43,7 +43,7 @@ const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: 
           </div>
         </div>
         {jobs.map((job: Job, index: number) => {
-          return <SingleJob job={job} setRefresh={setRefresh} key={index} />
+          return <SingleJob job={job} setRefresh={setRefresh} key={index} jwt={jwt} />
         })}
       </div>
     </div>
