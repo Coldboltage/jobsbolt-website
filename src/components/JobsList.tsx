@@ -36,9 +36,9 @@ const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: 
         <div className="">
           <h1 className="text-4xl pb-10">Jobs Found: {jobs.length}</h1>
           <div className="flex gap-6 mb-4">
-            <JobStage number={updatedPendingInterestJobs.length} text='Pending Interest' url={`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/pending-interested`} setJobUrl={setJobUrl} jobs={updatedPendingInterestJobs} setJobs={setJobs} />
-            <JobStage number={updatedInterestedJobs.length} text='Interested' url={`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/pending-interested`} setJobUrl={setJobUrl} jobs={updatedInterestedJobs} setJobs={setJobs} />
-            <JobStage number={updatedCoverReadyJobs.length} text='Awaiting Apply' url={`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/pending-interested`} setJobUrl={setJobUrl} jobs={updatedCoverReadyJobs} setJobs={setJobs} />
+            <JobStage number={jobs.length} text='Pending Interest' url={`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job/pending-interested`} setJobUrl={setJobUrl} jobs={updatedPendingInterestJobs} setJobs={setJobs} />
+            <JobStage number={updatedInterestedJobs.length} text='Interested' url={`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job/pending-interested`} setJobUrl={setJobUrl} jobs={updatedInterestedJobs} setJobs={setJobs} />
+            <JobStage number={updatedCoverReadyJobs.length} text='Awaiting Apply' url={`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job/pending-interested`} setJobUrl={setJobUrl} jobs={updatedCoverReadyJobs} setJobs={setJobs} />
 
           </div>
         </div>
