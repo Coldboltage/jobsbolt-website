@@ -91,8 +91,8 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job, jwt: string }) =
           <div className="flex flex-row pb-5">
             {!job.interested ? (
               <>
-                <button onClick={() => {
-                  interestStateClick(job.id, false, jwt)
+                <button onClick={async () => {
+                  await interestStateClick(job.id, false, jwt)
                   router.push({
                     pathname: '/jobs',
                     query: {
@@ -102,7 +102,7 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job, jwt: string }) =
                 }} className="bg-red-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold mr-5">
                   Not Interested
                 </button>
-                <button onClick={() => interestStateClick(job.id, true, jwt, setRefresh)} className="bg-green-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold">
+                <button onClick={async () => await interestStateClick(job.id, true, jwt, setRefresh)} className="bg-green-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold">
                   Interested
                 </button>
               </>) : job.interested === true && job.coverLetter === null ? (

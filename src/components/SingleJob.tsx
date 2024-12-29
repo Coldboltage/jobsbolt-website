@@ -15,10 +15,10 @@ const SingleJob = ({ job, setRefresh, jwt }: { job: Job, setRefresh: React.Dispa
       <div className="flex flex-row justify-end gap-4">
         {!job.interested ? (
           <>
-            <button onClick={() => interestStateClick(job.id, false, jwt, setRefresh,)} className="bg-red-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold">
+            <button onClick={async () => await interestStateClick(job.id, false, jwt, setRefresh,)} className="bg-red-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold">
               Not Interested
             </button>
-            <button onClick={() => interestStateClick(job.id, true, jwt, setRefresh,)} className="bg-green-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold">
+            <button onClick={async () => await interestStateClick(job.id, true, jwt, setRefresh,)} className="bg-green-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold">
               Interested
             </button>
           </>) : job.interested === true && job.coverLetter === null ? (
