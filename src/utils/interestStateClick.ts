@@ -7,6 +7,9 @@ export const interestStateClick = async (jobId: string, state: boolean, jwt: str
       'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
     }
   })
-  if (typeof setRefresh === 'function') setRefresh((prev: boolean) => !prev)
+  if (typeof setRefresh === 'function') {
+    console.log("was I fired")
+    setRefresh(() => true)
+  }
 
 }
