@@ -93,7 +93,7 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job, jwt: string }) =
               <>
                 <button onClick={() => {
                   interestStateClick(job.id, false, jwt)
-                  router.push('/jobs')
+                  router.replace('/jobs')
                 }} className="bg-red-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold mr-5">
                   Not Interested
                 </button>
