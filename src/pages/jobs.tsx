@@ -24,7 +24,8 @@ const JobsPage = ({ token, pendingInterestJobs, interestedJobs, coverReadyJobs }
 
   return (
     <MainLayout>
-      <ToastContainer />
+      <ToastContainer closeOnClick={false}
+      />
       <JobsList jwt={token} pendingInterestJobs={pendingInterestJobs} interestedJobs={interestedJobs} coverReadyJobs={coverReadyJobs} />
     </MainLayout>
   )

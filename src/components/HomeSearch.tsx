@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 interface JobTypeInterface {
   name: string;
@@ -13,8 +14,16 @@ const HomeSearch = ({ jwtToken }: { jwtToken: string }) => {
   const [location, setLocation] = useState("")
   const [description, setDescription] = useState("")
 
+  const router = useRouter()
+
   const jobTypeSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (!jwtToken) {
+      router.push('/login')
+      return
+    }
+
     const jobTypeObject: JobTypeInterface = {
       name,
       location,
