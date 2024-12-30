@@ -22,15 +22,6 @@ export default IndexPage
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const req = context.req
 
-  if (!req.headers.cookie) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    }
-  }
-
   const cookies = cookie.parse(req.headers.cookie || '');
   const token = cookies.jwt || null;
 
