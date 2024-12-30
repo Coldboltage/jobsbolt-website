@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import SingleJob from './SingleJob'
 import { Job } from '../types/job'
 import JobStage from './JobStage'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: { jwt: string, pendingInterestJobs: Job[], interestedJobs: Job[], coverReadyJobs: Job[] }) => {
+  const [job, setJob] = useState<Job | undefined>(undefined)
+  const [interestedState, setInterestedState] = useState<boolean>(false)
   const [jobs, setJobs] = useState(pendingInterestJobs as Job[])
   const [updatedPendingInterestJobs] = useState(pendingInterestJobs as Job[])
   const [updatedInterestedJobs] = useState(interestedJobs as Job[])
@@ -26,12 +29,18 @@ const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: 
       const data = await res.json()
       setJobs(data)
       setRefresh(false)
+      if (interestedState === true) {
+        toast.success(`Interested: ${job?.name}`)
+      } else {
+        toast.error(`Removed: ${job?.name}`)
+      }
     }
     fetchJobs()
-  }, [jobUrl, jwt, refresh])
+  }, [interestedState, job?.name, jobUrl, jwt, refresh])
 
   return (
     <div className="min-h-screen bg-gray-700 py-10">
+      <ToastContainer />
       <div className="max-w-screen-lg mx-auto">
         <div className="">
           <h1 className="text-4xl pb-10">Jobs Found: {jobs.length}</h1>
@@ -43,7 +52,7 @@ const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: 
           </div>
         </div>
         {jobs.map((job: Job, index: number) => {
-          return <SingleJob job={job} setRefresh={setRefresh} key={index} jwt={jwt} />
+          return <SingleJob job={job} setRefresh={setRefresh} key={index} jwt={jwt} setJob={setJob} setInterestedState={setInterestedState} />
         })}
       </div>
     </div>
