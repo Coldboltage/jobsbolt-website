@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import { interestStateClick } from '../utils/interestStateClick';
 import { Job } from '../types/job';
 import { useRouter } from 'next/router';
-import { FaInfoCircle, FaSuitcase, FaClipboardCheck, FaFileAlt } from 'react-icons/fa';
+import { FaClipboardCheck, FaFileAlt } from 'react-icons/fa';
 import { SiOpenai } from 'react-icons/si';
 import { IoIosInformationCircle } from 'react-icons/io';
 
