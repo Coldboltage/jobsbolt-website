@@ -1,17 +1,28 @@
-import React from 'react'
+import React from 'react';
 
 const HomeSearch = () => {
   return (
-    <div className=" py-60 bg-slate-800">
-      <form className="space-x-5 container mx-auto flex justify-center">
-        <input required type="text" name="" id="" placeholder="Job Title" className="p-1 px-4 text-gray-900 bg-gray-300 placeholder-slate-900" />
-        <input type="text" name="" id="" placeholder='Town, city' className="p-1 px-4 text-gray-900 bg-gray-300 placeholder-slate-900" />
-        <input type="submit" value="Add Search" className="bg-slate-600 p-2 px-4" />
+    <div className="py-20 bg-gray-900">
+      <form className="max-w-screen-md mx-auto flex flex-wrap items-center justify-center gap-4">
+        <input
+          required
+          type="text"
+          placeholder="Job Title"
+          className="w-full sm:w-auto p-3 text-gray-900 bg-gray-300 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="text"
+          placeholder="Town, city"
+          className="w-full sm:w-auto p-3 text-gray-900 bg-gray-300 placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="submit"
+          value="Search Jobs"
+          className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg cursor-pointer hover:bg-blue-700 transition"
+        />
       </form>
-
-
     </div>
-  )
-}
+  );
+};
 
-export default HomeSearch
+export default HomeSearch;

@@ -1,35 +1,38 @@
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-import ReactMarkdown from 'react-markdown'
-import { interestStateClick } from '../utils/interestStateClick'
-import { Job } from '../types/job'
-import { useRouter } from 'next/router'
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import { interestStateClick } from '../utils/interestStateClick';
+import { Job } from '../types/job';
+import { useRouter } from 'next/router';
+import { FaClipboardCheck, FaFileAlt } from 'react-icons/fa';
+import { SiOpenai } from 'react-icons/si';
+import { IoIosInformationCircle } from 'react-icons/io';
 
-const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job, jwt: string }) => {
-  const router = useRouter()
+const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) => {
+  const router = useRouter();
 
-  const [job, setJob] = useState(initialJob as Job)
-  const [refresh, setRefresh] = useState(false)
-  const [userPitch, setUserPitch] = useState('')
-
+  const [job, setJob] = useState(initialJob as Job);
+  const [refresh, setRefresh] = useState(false);
+  const [userPitch, setUserPitch] = useState('');
 
   useEffect(() => {
-    if (!refresh) return
-    const fetchJob = async () => {
+    if (!refresh) return;
 
+    const fetchJob = async () => {
       const res = await fetch(`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job/${job.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
-        }
-      })
-      const data = await res.json()
-      setJob(data)
-      setRefresh(false)
-    }
-    fetchJob()
-  }, [job.id, jwt, refresh])
+        },
+      });
+      const data = await res.json();
+      setJob(data);
+      setRefresh(false);
+    };
+
+    fetchJob();
+  }, [job.id, jwt, refresh]);
 
   const sendUserPitch = async () => {
     await fetch(`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/cover-letter/`, {
@@ -38,115 +41,153 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job, jwt: string }) =
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
       },
-      body: JSON.stringify({ jobId: job.id, userPitch: userPitch })
-    })
-    console.log("Should be good")
-    setRefresh(true)
-  }
+      body: JSON.stringify({ jobId: job.id, userPitch: userPitch }),
+    });
+    setRefresh(true);
+  };
 
   const applyToJob = async () => {
-
     await fetch(`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job/application-state/${job.indeedId}/${true}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
       },
-    })
-    console.log("Applied")
-    setRefresh(true)
-  }
-
-
-
+    });
+    setRefresh(true);
+  };
 
   return (
-    <div className="py-10 bg-gray-700">
-      <div className="max-w-screen-lg mx-auto ">
-        <div className="pb-10">
-          <h1 className="text-4xl">{job.name}</h1>
-          <p>{job.companyName}</p>
-        </div>
+    <div className="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-gray-800 shadow-lg rounded-lg p-8">
+        {/* Header */}
+        <header className="mb-8">
+          <h1 className="text-4xl font-bold text-white">{job.name}</h1>
+          <p className="text-gray-400 mt-2">{job.companyName}</p>
+        </header>
 
-        <div className="max-w-screen-md text-white ">
-          <h3 className="text-2xl font-bold text-white pb-3">AI Suitability Description</h3>
-          <p className="pb-5 leading-[1.8]">{job.summary}</p>
-          <h3 className="text-2xl font-bold text-white pb-3">Other Information</h3>
+        {/* AI Suitability Description */}
+        <section className="flex items-start mb-8">
+          <div className="flex-shrink-0">
+            <SiOpenai className="text-blue-400 text-2xl" />
+          </div>
+          <div className="ml-4">
+            <h3 className="text-2xl font-bold text-white">AI Suitability Description</h3>
+            <p className="prose-base whitespace-normal leading-relaxed mt-2 text-gray-400">{job.summary}</p>
+          </div>
+        </section>
 
-          <ul>
-            <li className="pb-1">Job Suitability Score: <span className="font-bold">{job.suitabilityScore}/100</span></li>
-            <li className="pb-1">Job Suited: <span className="font-bold">{job.suited ? "True" : "False"}</span></li>
-            <li className="pb-1">Job Suitability Score: <span className="font-bold">{job.pay}</span></li>
-            <li className="pb-4">Indeed Link: <Link className="text-white font-bold" href={job.link}>{job.link}</Link></li>
-          </ul>
+        {/* Other Information */}
+        <section className="flex items-start mb-8">
+          <div className="flex-shrink-0">
+            <IoIosInformationCircle className="text-green-400 text-2xl" />
+          </div>
+          <div className="ml-4">
+            <h3 className="text-2xl font-bold text-white">Other Information</h3>
+            <ul className="mt-4 space-y-2 text-gray-400 leading-relaxed">
+              <li>
+                <strong className="text-white">Job Suitability Score:</strong> {job.suitabilityScore}/100
+              </li>
+              <li>
+                <strong className="text-white">Job Suited:</strong> {job.suited ? 'True' : 'False'}
+              </li>
+              <li>
+                <strong className="text-white">Pay:</strong> {job.pay}
+              </li>
+              <li>
+                <strong className="text-white">Indeed Link:</strong>{' '}
+                <Link href={job.link} className="text-blue-400 hover:underline">
+                  {job.link}
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </section>
 
-          <div>
-            <h3 className="text-2xl font-bold text-white py-5">Concise Job Analysis</h3>
-            <ReactMarkdown className="text-white pb-5 leading-8">
+        {/* Concise Job Analysis */}
+        <section className="flex items-start mb-8">
+          <div className="flex-shrink-0">
+            <FaClipboardCheck className="text-yellow-400 text-2xl" />
+          </div>
+          <div className="ml-4">
+            <h3 className="text-2xl font-bold text-white">Concise Job Analysis</h3>
+            <ReactMarkdown className="prose-base whitespace-normal leading-relaxed mt-2 text-gray-400">
               {job.conciseDescription}
             </ReactMarkdown>
           </div>
+        </section>
 
-
-          <div className="flex flex-row pb-5">
+        {/* Job Actions */}
+        <section className="flex flex-col mb-8">
+          <div className="flex gap-4 mb-4">
             {!job.interested ? (
               <>
-                <button onClick={async () => {
-                  await interestStateClick(job.id, false, jwt)
-                  router.push({
-                    pathname: '/jobs',
-                    query: {
-                      refresh: 'true'
-                    }
-                  })
-                }} className="bg-red-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold mr-5">
+                <button
+                  onClick={async () => {
+                    await interestStateClick(job.id, false, jwt);
+                    router.push({
+                      pathname: '/jobs',
+                      query: { refresh: 'true' },
+                    });
+                  }}
+                  className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg transition"
+                >
                   Not Interested
                 </button>
-                <button onClick={async () => await interestStateClick(job.id, true, jwt, setRefresh)} className="bg-green-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold">
+                <button
+                  onClick={async () => await interestStateClick(job.id, true, jwt, setRefresh)}
+                  className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition"
+                >
                   Interested
                 </button>
-              </>) : job.interested === true && job.coverLetter === null ? (
-
-                <div className="w-full flex flex-col space-y-4">
-                  <textarea
-                    value={userPitch}
-                    onChange={(e) => setUserPitch(e.target.value)}
-                    className="h-60 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-black"
-                    placeholder="Write your message here..."
-                  ></textarea>
-                  <button onClick={() => sendUserPitch()} className="bg-blue-400 text-white p-4 py-1 rounded text-[20px] font-bold">
-                    Submit
-                  </button>
-                </div>
-
-
-              )
-              : (
-                <div className="w-full flex flex-col">
-                  <h3 className="text-2xl font-bold text-white py-5">Generated Cover Letter</h3>
-                  <p className="pb-2 leading-[1.8] whitespace-pre-wrap">{job.coverLetter?.generatedCoverLetter}</p>
-                  <button disabled={job.applied} onClick={() => applyToJob()} className={`bg-blue-400 text-white p-4 py-1 rounded w-auto inline-block text-[20px] font-bold ${job.applied && 'disabled:bg-gray-400 disabled:cursor-not-allowed'}`}>
-                    {job.applied ? 'Applied' : 'Apply'}
-                  </button>
-                </div>
-
-
-              )
-            }
+              </>
+            ) : job.coverLetter === null ? (
+              <div className="flex flex-col gap-4">
+                <textarea
+                  value={userPitch}
+                  onChange={(e) => setUserPitch(e.target.value)}
+                  className="h-40 p-4 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-gray-300 resize-none placeholder-gray-500"
+                  placeholder="Write your message here..."
+                />
+                <button
+                  onClick={sendUserPitch}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg transition"
+                >
+                  Submit
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <h3 className="text-2xl font-bold text-blue-400">Generated Cover Letter</h3>
+                <p className="prose-base whitespace-pre-wrap leading-relaxed text-gray-400">{job.coverLetter?.generatedCoverLetter}</p>
+                <button
+                  disabled={job.applied}
+                  onClick={applyToJob}
+                  className={`py-2 px-6 rounded-lg font-semibold text-white ${job.applied ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                    } transition`}
+                >
+                  {job.applied ? 'Applied' : 'Apply'}
+                </button>
+              </div>
+            )}
           </div>
-          <>
-            <h3 className="text-2xl font-bold text-white pb-3">Job Description</h3>
-            {/* <p className="pb-5 leading-[1.8] whitespace-pre-wrap prose text-white">{job.description}</p> */}
-            <ReactMarkdown className="text-white pb-5 prose whitespace-normal leading-relaxed">
+        </section>
+
+        {/* Job Description */}
+        <section className="flex items-start">
+          <div className="flex-shrink-0">
+            <FaFileAlt className="text-indigo-400 text-2xl" />
+          </div>
+          <div className="ml-4">
+            <h3 className="text-2xl font-bold text-white">Job Description</h3>
+            <ReactMarkdown className="prose-base whitespace-normal leading-relaxed mt-2 text-gray-400">
               {job.description}
             </ReactMarkdown>
-          </>
-
-        </div>
-
+          </div>
+        </section>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DefaultJobPage
+export default DefaultJobPage;
