@@ -7,7 +7,7 @@ import { toast, ToastContainer } from 'react-toastify'
 
 const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: { jwt: string, pendingInterestJobs: Job[], interestedJobs: Job[], coverReadyJobs: Job[] }) => {
   const [job, setJob] = useState<Job | undefined>(undefined)
-  const [interestedState, setInterestedState] = useState()
+  const [interestedState, setInterestedState] = useState<boolean>(false)
   const [jobs, setJobs] = useState(pendingInterestJobs as Job[])
   const [updatedPendingInterestJobs] = useState(pendingInterestJobs as Job[])
   const [updatedInterestedJobs] = useState(interestedJobs as Job[])
@@ -36,7 +36,7 @@ const JobsList = ({ jwt, pendingInterestJobs, interestedJobs, coverReadyJobs }: 
       }
     }
     fetchJobs()
-  }, [jobUrl, jwt, refresh])
+  }, [interestedState, job?.name, jobUrl, jwt, refresh])
 
   return (
     <div className="min-h-screen bg-gray-700 py-10">

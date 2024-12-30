@@ -3,7 +3,7 @@ import { Job } from '../types/job'
 import Link from 'next/link'
 import { interestStateClick } from '../utils/interestStateClick'
 
-const SingleJob = ({ job, setRefresh, jwt, setJob, setInterestedState }: { job: Job, setRefresh: React.Dispatch<React.SetStateAction<boolean>>, jwt: string, setJob: React.Dispatch<React.SetStateAction<Job>>, setInterestedState: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const SingleJob = ({ job, setRefresh, jwt, setJob, setInterestedState }: { job: Job, setRefresh: React.Dispatch<React.SetStateAction<boolean>>, jwt: string, setJob: React.Dispatch<React.SetStateAction<Job | undefined>>, setInterestedState: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
   return (
     <div>
