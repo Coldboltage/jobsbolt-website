@@ -35,6 +35,7 @@ const Login = () => {
       setPassword('');
       document.cookie = `jwt=${data.access_token}; path=/;`;
       router.push('/jobs?showToast=true');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('An error occurred. Please try again later.');
     }
@@ -86,8 +87,8 @@ const Login = () => {
             type="submit"
             value="Login"
             className={`w-full py-3 text-white font-semibold rounded-lg shadow-lg transition-colors ${email.length === 0 || password.length === 0
-                ? 'bg-gray-600 cursor-not-allowed'
-                : 'bg-blue-600 hover:bg-blue-700 cursor-pointer'
+              ? 'bg-gray-600 cursor-not-allowed'
+              : 'bg-blue-600 hover:bg-blue-700 cursor-pointer'
               }`}
           />
         </form>
