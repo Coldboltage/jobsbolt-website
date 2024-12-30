@@ -3,21 +3,39 @@ import MainLayout from '../layout/MainLayout'
 import JobsList from '../components/JobsList'
 import { Job } from '../types/job'
 import * as cookie from 'cookie';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 
 const JobsPage = ({ token, pendingInterestJobs, interestedJobs, coverReadyJobs }: { token: string, pendingInterestJobs: Job[], interestedJobs: Job[], coverReadyJobs: Job[] }) => {
+  const router = useRouter()
+
+
+  if (!token) {
+    router.push('/login')
+  }
+
   return (
     <MainLayout>
       <JobsList jwt={token} pendingInterestJobs={pendingInterestJobs} interestedJobs={interestedJobs} coverReadyJobs={coverReadyJobs} />
-
     </MainLayout>
   )
 }
 
-import { GetServerSideProps } from 'next';
+
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req } = context;
+
+  if (!req.headers.cookie) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
 
   // Parse cookies from the request
   const cookies = cookie.parse(req.headers.cookie || '');
