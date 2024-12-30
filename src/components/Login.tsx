@@ -11,7 +11,6 @@ const Login = () => {
 
   const fetchJwt = async (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault()
-    console.log(process.env.NEXT_PUBLIC_CLIENT_API_URL)
     const response = await fetch(`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/auth/login`, {
       method: 'POST',
       headers: {
@@ -32,7 +31,7 @@ const Login = () => {
       setEmail("")
       setPassword("")
       document.cookie = `jwt=${data.access_token}; path=/;`;
-      router.push('/jobs')
+      router.push('/jobs?showToast=true');
     }
   }
 
