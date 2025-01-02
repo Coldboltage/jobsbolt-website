@@ -30,7 +30,7 @@ const HomeSearch = ({ jwtToken }: { jwtToken: string }) => {
       desiredPay: 0,
       description
     }
-    const response = await fetch(`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job-type`, {
+    const response = await fetch(`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job-type`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

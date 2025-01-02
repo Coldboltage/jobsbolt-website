@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<JobPageProps, ContextParams>
     }
   }
 
-  const res = await fetch(`http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/${context.params.id}`, {
+  const res = await fetch(`https://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/${context.params.id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
