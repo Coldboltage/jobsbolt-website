@@ -18,7 +18,7 @@ const AddJobForm = () => {
 
     const jwtToken = localStorage.getItem('jwtToken');
     const response = await fetch(
-      `http://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/add-job-manually`,
+      `https://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/add-job-manually`,
       {
         method: 'POST',
         headers: {

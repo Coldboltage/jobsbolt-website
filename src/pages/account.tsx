@@ -11,7 +11,7 @@ const AccountPage = ({ token }: { token: string }) => {
 
   useEffect(() => {
     const fetchAccountInfo = async () => {
-      const response = await fetch(`http://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/user/find-user`, {
+      const response = await fetch(`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/user/find-user`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
