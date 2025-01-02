@@ -19,7 +19,7 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
     if (!refresh) return;
 
     const fetchJob = async () => {
-      const res = await fetch(`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job/${job.id}`, {
+      const res = await fetch(`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/${job.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
   }, [job.id, jwt, refresh]);
 
   const sendUserPitch = async () => {
-    await fetch(`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/cover-letter/`, {
+    await fetch(`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/cover-letter/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
   };
 
   const applyToJob = async () => {
-    await fetch(`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}:3000/api/job/application-state/${job.indeedId}/${true}`, {
+    await fetch(`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/application-state/${job.indeedId}/${true}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
