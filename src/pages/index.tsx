@@ -4,6 +4,7 @@ import HomeSearch from '../components/HomeSearch'
 import HomeInformation from '../components/HomeInformation'
 import { GetServerSideProps } from 'next'
 import * as cookie from 'cookie';
+import Hero from '../components/Hero'
 
 const IndexPage = ({ token }: { token: string | null }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -11,6 +12,7 @@ const IndexPage = ({ token }: { token: string | null }) => {
 
   return (
     <MainLayout>
+      <Hero />
       <HomeSearch jwtToken={jwtToken || ''} />
       <HomeInformation />
     </MainLayout>

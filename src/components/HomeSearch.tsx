@@ -48,9 +48,9 @@ const HomeSearch = ({ jwtToken }: { jwtToken: string }) => {
 
 
   return (
-    <div className="py-20 bg-gray-900">
+    <div className="pt-20 pb-40 bg-gray-900">
       <ToastContainer />
-      <form onSubmit={(e) => jobTypeSubmit(e)} className="max-w-screen-md mx-auto flex flex-col items-center justify-center gap-4">
+      <form onSubmit={(e) => jobTypeSubmit(e)} className="px-5 max-w-screen-md mx-auto flex flex-col items-center justify-center gap-4">
         <div className="flex flex-wrap items-center justify-center gap-4">
           <input
             required
