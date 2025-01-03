@@ -1,40 +1,37 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
+import { IoIosPerson } from 'react-icons/io';
 
-const Login = () => {
+const Create = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
 
-  const fetchJwt = async (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+  const fetchJwt = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null); // Clear previous errors
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/auth/login`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/user/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: email, password }),
+        body: JSON.stringify({ name, email, password }),
         credentials: 'include', // Include cookies
       });
 
-      if (response.status === 401) {
+      if (response.status === 401 || response.status === 404) {
         setError('Invalid credentials. Please try again.');
         return;
       }
 
-      const data: { access_token: string } = await response.json();
 
-      setEmail('');
-      setPassword('');
-      document.cookie = `jwt=${data.access_token}; path=/;`;
-      router.push('/jobs?showToast=true');
+      router.push('/login');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('An error occurred. Please try again later.');
@@ -44,7 +41,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="w-full max-w-md bg-gray-800 shadow-lg rounded-lg p-8">
-        <h1 className="text-3xl font-bold text-white mb-6 text-center">Login</h1>
+        <h1 className="text-3xl font-bold text-white mb-6 text-center">Create Account</h1>
 
         {/* Error Message */}
         {error && (
@@ -53,8 +50,19 @@ const Login = () => {
           </div>
         )}
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={(e) => fetchJwt(e)}>
           {/* Email Input */}
+          <div className="flex items-center bg-gray-700 rounded-lg p-3">
+            <IoIosPerson className="text-gray-400 text-lg mr-3" />
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              type="text"
+              placeholder="Full Name"
+              className="flex-1 bg-transparent text-gray-200 placeholder-gray-500 focus:outline-none"
+            />
+          </div>
           <div className="flex items-center bg-gray-700 rounded-lg p-3">
             <AiOutlineMail className="text-gray-400 text-lg mr-3" />
             <input
@@ -70,7 +78,6 @@ const Login = () => {
 
           {/* Password Input */}
           <div>
-            <Link className="flex justify-end pb-3 text-sm" href={'/forgot-password'}>Forgot Your Password?</Link>
             <div className="flex items-center bg-gray-700 rounded-lg p-3">
               <AiOutlineLock className="text-gray-400 text-lg mr-3" />
               <input
@@ -87,20 +94,18 @@ const Login = () => {
 
           {/* Submit Button */}
           <input
-            disabled={email.length === 0 || password.length === 0}
-            onClick={(e) => fetchJwt(e)}
+            disabled={name.length === 0 || email.length === 0 || password.length === 0}
             type="submit"
-            value="Login"
+            value="Create"
             className={`w-full py-3 text-white font-semibold rounded-lg shadow-lg transition-colors ${email.length === 0 || password.length === 0
               ? 'bg-gray-600 cursor-not-allowed'
               : 'bg-blue-600 hover:bg-blue-700 cursor-pointer'
               }`}
           />
-          <p className="text-center">Don&apos;t have an account? <Link className="underline font-bold" href="/create">Sign Up</Link></p>
         </form>
       </div>
     </div>
   );
-};
+}
 
-export default Login;
+export default Create

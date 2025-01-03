@@ -3,11 +3,22 @@ import MainLayout from '../layout/MainLayout';
 import * as cookie from 'cookie';
 import { GetServerSideProps } from 'next';
 import { AiOutlineFileText, AiOutlineUser, AiOutlineMessage } from 'react-icons/ai';
+import { useRouter } from 'next/router';
 
 const AccountPage = ({ token }: { token: string }) => {
   const [cv, setCv] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [userTalk, setUserTalk] = useState<string>('');
+
+  const router = useRouter()
+
+  const logout = async () => {
+    await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/auth/logout`, {
+      method: 'POST',
+      credentials: 'include', // Include cookies in the request
+    });
+    router.push('/');
+  }
 
   useEffect(() => {
     const fetchAccountInfo = async () => {
@@ -21,9 +32,9 @@ const AccountPage = ({ token }: { token: string }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setCv(data.cv);
-        setDescription(data.description);
-        setUserTalk(data.userTalk);
+        setCv(data.cv || "");
+        setDescription(data.description || "");
+        setUserTalk(data.userTalk || "");
       }
     };
 
@@ -76,7 +87,7 @@ const AccountPage = ({ token }: { token: string }) => {
             </section>
 
             {/* User Talk Section */}
-            <section>
+            <section className="mb-12">
               <div className="flex items-center mb-4">
                 <AiOutlineMessage className="text-yellow-400 text-3xl mr-3" />
                 <h3 className="text-2xl font-bold text-white">User Talk</h3>
@@ -91,6 +102,8 @@ const AccountPage = ({ token }: { token: string }) => {
                 placeholder="Write in your natural tone..."
               ></textarea>
             </section>
+            <button onClick={() => { logout() }} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">Logout</button>
+
           </div>
         </div>
       </div>

@@ -59,7 +59,7 @@ const JobsList = ({
 
         <div className="flex flex-wrap gap-6 mb-10 justify-center">
           <JobStage
-            number={jobs.length}
+            number={updatedPendingInterestJobs.length > 0 ? updatedPendingInterestJobs.length : 0}
             text="Pending Interest"
             url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
             setJobUrl={setJobUrl}
@@ -67,7 +67,7 @@ const JobsList = ({
             setJobs={setJobs}
           />
           <JobStage
-            number={updatedInterestedJobs.length}
+            number={updatedInterestedJobs.length > 0 ? updatedInterestedJobs.length : 0}
             text="Interested"
             url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
             setJobUrl={setJobUrl}
@@ -85,7 +85,7 @@ const JobsList = ({
         </div>
 
         <div className="space-y-6">
-          {jobs.map((job: Job, index: number) => (
+          {jobs.length > 0 && jobs.map((job: Job, index: number) => (
             <SingleJob
               job={job}
               setRefresh={setRefresh}
