@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
@@ -30,7 +31,6 @@ const Login = () => {
 
       const data: { access_token: string } = await response.json();
 
-      localStorage.setItem('jwtToken', data.access_token);
       setEmail('');
       setPassword('');
       document.cookie = `jwt=${data.access_token}; path=/;`;
@@ -67,18 +67,23 @@ const Login = () => {
             />
           </div>
 
+
           {/* Password Input */}
-          <div className="flex items-center bg-gray-700 rounded-lg p-3">
-            <AiOutlineLock className="text-gray-400 text-lg mr-3" />
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              type="password"
-              placeholder="Password"
-              className="flex-1 bg-transparent text-gray-200 placeholder-gray-500 focus:outline-none"
-            />
+          <div>
+            <Link className="flex justify-end pb-3 text-sm" href={'/forgot-password'}>Forgot Your Password?</Link>
+            <div className="flex items-center bg-gray-700 rounded-lg p-3">
+              <AiOutlineLock className="text-gray-400 text-lg mr-3" />
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                type="password"
+                placeholder="Password"
+                className="flex-1 bg-transparent text-gray-200 placeholder-gray-500 focus:outline-none"
+              />
+            </div>
           </div>
+
 
           {/* Submit Button */}
           <input
