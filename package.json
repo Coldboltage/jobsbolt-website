@@ -12,6 +12,7 @@
   "dependencies": {
     "cookie": "^1.0.2",
     "dot-env": "^0.0.1",
+    "js-cookie": "^3.0.5",
     "next": "15.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/typography": "^0.5.15",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.17.10",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19",
