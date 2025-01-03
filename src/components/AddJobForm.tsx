@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AddJobInput from './AddJobInput';
 
-const AddJobForm = () => {
+const AddJobForm = ({ token }: { token: string }) => {
   const [companyName, setCompanyName] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [jobId, setJobId] = useState('');
@@ -16,14 +16,13 @@ const AddJobForm = () => {
     e.preventDefault();
     setError(null);
 
-    const jwtToken = localStorage.getItem('jwtToken');
     const response = await fetch(
-      `https://${process.env.NEXT_PUBLIC_SERVER_API_URL}:3000/api/job/add-job-manually`,
+      `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/add-job-manually`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${jwtToken}`, // JWT as a Bearer Token
+          Authorization: `Bearer ${token}`, // JWT as a Bearer Token
         },
         body: JSON.stringify({
           indeedId: jobId,

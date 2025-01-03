@@ -2,10 +2,10 @@ import React from 'react'
 import DefaultPageLayout from '../layout/DefaultPageLayout'
 import AddJobForm from './AddJobForm'
 
-const AddJob = () => {
+const AddJob = ({ token }: { token: string }) => {
   return (
     <DefaultPageLayout pageName={'Add Job'}>
-      <AddJobForm />
+      <AddJobForm token={token} />
     </DefaultPageLayout>
   )
 }

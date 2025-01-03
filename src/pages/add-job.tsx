@@ -15,7 +15,7 @@ const AddJobPage = ({ token: initialToken }: { token: string }) => {
 
   return (
     <MainLayout>
-      <AddJob />
+      <AddJob token={token} />
     </MainLayout>
   )
 }

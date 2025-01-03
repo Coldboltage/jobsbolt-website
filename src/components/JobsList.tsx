@@ -22,7 +22,7 @@ const JobsList = ({
   const [updatedInterestedJobs] = useState(interestedJobs as Job[]);
   const [updatedCoverReadyJobs] = useState(Array.isArray(coverReadyJobs) ? (coverReadyJobs as Job[]) : []);
   const [refresh, setRefresh] = useState(false);
-  const [jobUrl, setJobUrl] = useState(`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`);
+  const [jobUrl, setJobUrl] = useState(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`);
 
   useEffect(() => {
     if (!refresh) return;
@@ -61,7 +61,7 @@ const JobsList = ({
           <JobStage
             number={jobs.length}
             text="Pending Interest"
-            url={`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
+            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
             setJobUrl={setJobUrl}
             jobs={updatedPendingInterestJobs}
             setJobs={setJobs}
@@ -69,7 +69,7 @@ const JobsList = ({
           <JobStage
             number={updatedInterestedJobs.length}
             text="Interested"
-            url={`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
+            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
             setJobUrl={setJobUrl}
             jobs={updatedInterestedJobs}
             setJobs={setJobs}
@@ -77,7 +77,7 @@ const JobsList = ({
           <JobStage
             number={updatedCoverReadyJobs.length}
             text="Awaiting Apply"
-            url={`https://${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
+            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
             setJobUrl={setJobUrl}
             jobs={updatedCoverReadyJobs}
             setJobs={setJobs}
