@@ -14,7 +14,7 @@ const ResetPassword = ({ jwt }: { jwt: string }) => {
     setError(null); // Clear previous errors
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/auth/reset-password`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/user/reset-password/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
