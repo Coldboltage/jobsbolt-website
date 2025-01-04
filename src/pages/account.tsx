@@ -5,12 +5,44 @@ import { GetServerSideProps } from 'next';
 import { AiOutlineFileText, AiOutlineUser, AiOutlineMessage } from 'react-icons/ai';
 import { useRouter } from 'next/router';
 
+export enum InfoState {
+  NONE = "NONE",
+  CV = "CV",
+  DESCRIPTION = "DESCRIPTION",
+  USER_TALK = "USER_TALK"
+}
+
 const AccountPage = ({ token }: { token: string }) => {
   const [cv, setCv] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [userTalk, setUserTalk] = useState<string>('');
+  // const [info, setInfo] = useState(InfoState.NONE)
 
   const router = useRouter()
+
+  const saveInfo = async (whichInfo: InfoState) => {
+    let body = ""
+    if (whichInfo === InfoState.CV) {
+      body = JSON.stringify({ cv })
+    } else if (whichInfo === InfoState.DESCRIPTION) {
+      body = JSON.stringify({ description })
+    } else {
+      body = JSON.stringify({ userTalk })
+    }
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/user/`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`, // Token as a Bearer Token
+      },
+      body
+    });
+
+    if (response.ok) {
+      console.log("ok")
+    }
+  };
 
   const logout = async () => {
     await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/auth/logout`, {
@@ -67,6 +99,10 @@ const AccountPage = ({ token }: { token: string }) => {
                 className="w-full h-60 p-4 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-gray-800 text-gray-200 placeholder-gray-500 leading-7"
                 placeholder="Paste your CV here..."
               ></textarea>
+              <div className="flex justify-end">
+                <button onClick={() => saveInfo(InfoState.CV)} className="mt-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">Save CV</button>
+              </div>
+
             </section>
 
             {/* Description Section */}
@@ -84,6 +120,10 @@ const AccountPage = ({ token }: { token: string }) => {
                 className="w-full h-60 p-4 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-gray-800 text-gray-200 placeholder-gray-500 leading-7"
                 placeholder="Describe yourself professionally..."
               ></textarea>
+              <div className="flex justify-end">
+                <button onClick={() => saveInfo(InfoState.DESCRIPTION)} className="mt-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">Save Description</button>
+              </div>
+
             </section>
 
             {/* User Talk Section */}
@@ -101,8 +141,14 @@ const AccountPage = ({ token }: { token: string }) => {
                 className="w-full h-60 p-4 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none bg-gray-800 text-gray-200 placeholder-gray-500 leading-7"
                 placeholder="Write in your natural tone..."
               ></textarea>
+              <div className="flex justify-end">
+                <button onClick={() => saveInfo(InfoState.USER_TALK)} className="mt-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">Save User Talk</button>
+              </div>
             </section>
-            <button onClick={() => { logout() }} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">Logout</button>
+            <div className="flex justify-end mt-20">
+              <button onClick={() => { logout() }} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">Logout</button>
+
+            </div>
 
           </div>
         </div>
