@@ -14,6 +14,7 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
   const [job, setJob] = useState(initialJob as Job);
   const [refresh, setRefresh] = useState(false);
   const [userPitch, setUserPitch] = useState('');
+  const [coverLetterGenerated] = useState(initialJob?.coverLetter?.generatedCoverLetter)
 
   useEffect(() => {
     if (!refresh) return;
@@ -46,6 +47,20 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
     setRefresh(true);
   };
 
+  const regeneateCoverLetter = async (cvId: string) => {
+    await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/cover-letter/reset/bulk-cvs/`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
+      },
+      body: JSON.stringify({
+        'cvIds': [cvId]
+      }),
+    });
+    setRefresh(true);
+  };
+
   const applyToJob = async () => {
     await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/application-state/${job.indeedId}/${true}`, {
       method: 'PATCH',
@@ -56,6 +71,8 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
     });
     setRefresh(true);
   };
+  console.log(coverLetterGenerated)
+
 
   return (
     <div className="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -160,14 +177,26 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
               <div className="flex flex-col gap-4">
                 <h3 className="text-2xl font-bold text-blue-400">Generated Cover Letter</h3>
                 <p className="prose-base whitespace-pre-wrap leading-relaxed text-gray-400">{job.coverLetter?.generatedCoverLetter}</p>
-                <button
-                  disabled={job.applied}
-                  onClick={applyToJob}
-                  className={`py-2 px-6 rounded-lg font-semibold text-white ${job.applied ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
-                    } transition`}
-                >
-                  {job.applied ? 'Applied' : 'Apply'}
-                </button>
+                <div className="flex flex-row gap-4">
+                  <button
+                    disabled={job.applied}
+                    onClick={applyToJob}
+                    className={`py-2 px-6 rounded-lg font-semibold text-white ${job.applied ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                      } transition`}
+                  >
+                    {job.applied ? 'Applied' : 'Apply'}
+                  </button>
+
+                  {coverLetterGenerated && <button
+                    disabled={job.applied}
+                    onClick={() => job.coverLetter?.id && regeneateCoverLetter(job.coverLetter.id)}
+                    className={`py-2 px-6 rounded-lg font-semibold text-white ${job.applied ? 'bg-gray-500 cursor-not-allowed' : 'bg-red-500 hover:bg-red-600'
+                      } transition`}
+                  >
+                    Recreate Cover Letter
+                  </button>}
+                </div>
+
               </div>
             )}
           </div>
