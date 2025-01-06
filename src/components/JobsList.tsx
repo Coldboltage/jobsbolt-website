@@ -18,13 +18,26 @@ const JobsList = ({
   const [job, setJob] = useState<Job | undefined>(undefined);
   const [interestedState, setInterestedState] = useState<boolean | undefined>();
   const [jobs, setJobs] = useState(pendingInterestJobs as Job[]);
-  const [updatedPendingInterestJobs] = useState(pendingInterestJobs as Job[]);
-  const [updatedInterestedJobs] = useState(interestedJobs as Job[]);
+  const [updatedPendingInterestJobs, setUpdatedPendingInterestJobs] = useState(pendingInterestJobs as Job[]);
+  const [updatedInterestedJobs, setUpdatedInterestedJobs] = useState(interestedJobs as Job[]);
   const [updatedCoverReadyJobs] = useState(Array.isArray(coverReadyJobs) ? (coverReadyJobs as Job[]) : []);
   const [refresh, setRefresh] = useState(false);
   const [jobUrl, setJobUrl] = useState(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`);
 
+  const interestedClicked = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/interested-jobs`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt}`, // JWT as a Bearer Token
+      },
+    });
+    const data = await res.json()
+    setUpdatedInterestedJobs(data)
+  }
+
   useEffect(() => {
+    let data;
     if (!refresh) return;
     const fetchJobs = async () => {
       const res = await fetch(jobUrl, {
@@ -34,16 +47,28 @@ const JobsList = ({
           Authorization: `Bearer ${jwt}`, // JWT as a Bearer Token
         },
       });
-      const data = await res.json();
-      setJobs(data);
+      data = await res.json();
+
+      console.log(jobUrl)
       setRefresh(false);
+
       if (interestedState === true) {
         toast.success(`Interested: ${job?.name}`);
       } else {
         toast.error(`Removed: ${job?.name}`);
       }
+
+      if (jobUrl === `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`) {
+        setUpdatedPendingInterestJobs(data)
+        await interestedClicked()
+        setJobs(data);
+      }
     };
+
     fetchJobs();
+
+
+
   }, [interestedState, job?.name, jobUrl, jwt, refresh]);
 
   return (
@@ -69,7 +94,7 @@ const JobsList = ({
           <JobStage
             number={updatedInterestedJobs.length > 0 ? updatedInterestedJobs.length : 0}
             text="Interested"
-            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
+            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/interested-jobs`}
             setJobUrl={setJobUrl}
             jobs={updatedInterestedJobs}
             setJobs={setJobs}
@@ -77,7 +102,7 @@ const JobsList = ({
           <JobStage
             number={updatedCoverReadyJobs.length}
             text="Awaiting Apply"
-            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
+            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/cover-letter-to-apply`}
             setJobUrl={setJobUrl}
             jobs={updatedCoverReadyJobs}
             setJobs={setJobs}

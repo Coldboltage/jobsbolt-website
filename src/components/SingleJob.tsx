@@ -27,7 +27,7 @@ const SingleJob = ({
         </Link>
 
         {/* Action Buttons */}
-        <div className="flex flex-row justify-end items-center gap-4">
+        <div className=" flex flex-col sm:flex-row justify-end items-center gap-4">
           {!job.interested ? (
             <>
               <button
