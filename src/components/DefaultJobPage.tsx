@@ -14,7 +14,7 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
   const [job, setJob] = useState(initialJob as Job);
   const [refresh, setRefresh] = useState(false);
   const [userPitch, setUserPitch] = useState('');
-  const [coverLetterGenerated] = useState(initialJob?.coverLetter?.generatedCoverLetter)
+  const [coverLetterGenerated, setCoverLetterGenerated] = useState(initialJob?.coverLetter?.generatedCoverLetter)
 
   useEffect(() => {
     if (!refresh) return;
@@ -58,6 +58,7 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
         'cvIds': [cvId]
       }),
     });
+    setCoverLetterGenerated(null)
     setRefresh(true);
   };
 
