@@ -6,9 +6,12 @@ import { GetServerSideProps } from 'next'
 import * as cookie from 'cookie';
 import Hero from '../components/Hero'
 
+
 const IndexPage = ({ token }: { token: string | null }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [jwtToken, setJwtToken] = useState(token)
+  const [jwtToken] = useState(token)
+
+
+
 
   return (
     <MainLayout>
