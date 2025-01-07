@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SingleJob from './SingleJob';
 import { Job } from '../types/job';
 import JobStage from './JobStage';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const JobsList = ({
   jwt,
@@ -73,7 +73,6 @@ const JobsList = ({
 
   return (
     <div className="min-h-screen bg-gray-900 py-10 text-white">
-      <ToastContainer />
       <div className="max-w-screen-lg mx-auto">
         <header className="mb-8 text-center">
           <h1 className="text-4xl font-bold">Jobs Found: {jobs.length}</h1>

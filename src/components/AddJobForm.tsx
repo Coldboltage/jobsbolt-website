@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import AddJobInput from './AddJobInput';
 import AddJobSelect from './AddJobSelect';
 import { JobType } from '../types/jobsType'
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import { ClockLoader } from 'react-spinners';
 
-const AddJobForm = ({ token }: { token: string }) => {
+const AddJobForm = ({ token, initialJobTypes }: { token: string, initialJobTypes: JobType[] }) => {
   const [companyName, setCompanyName] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [jobId, setJobId] = useState('');
@@ -13,29 +16,22 @@ const AddJobForm = ({ token }: { token: string }) => {
   const [link, setLink] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [jobTypes, setJobTypes] = useState([])
+  const [jobTypes, setJobTypes] = useState<string[]>([])
 
+
+  const router = useRouter()
   useEffect(() => {
-    const fetchJobType = async () => {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job-type/find-by-user`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // JWT as a Bearer Token
-          },
-        }
-      );
-      if (response.ok === false) throw new Error(`error finding user jobtypes`)
-      const data = await response.json()
-
-      const jobTypes = data.map((jobType: JobType) => `${jobType.name} ${jobType.location}`)
+    const checkJobTypes = async () => {
+      if (initialJobTypes.length === 0) {
+        toast('Please create a jobtype')
+        await new Promise(r => setTimeout(r, 3000))
+        router.push('/')
+      }
+      const jobTypes = initialJobTypes.map((jobType: JobType) => `${jobType.name} ${jobType.location}`)
       setJobTypes(jobTypes)
-
     }
-    fetchJobType()
-  }, []);
+    checkJobTypes()
+  }, [initialJobTypes, router]);
 
   const addNewJobSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -79,6 +75,22 @@ const AddJobForm = ({ token }: { token: string }) => {
       setJobDescription('');
     }
   };
+
+  if (jobTypes?.length === 0) {
+    return (
+      <div className="py-10 w-full flex max-auto justify-center align-middle my-40">
+
+        <ClockLoader
+
+          color='blue'
+          size={100}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+
+    )
+  }
 
   return (
     <div className="py-10 w-full">

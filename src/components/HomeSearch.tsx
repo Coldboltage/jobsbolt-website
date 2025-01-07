@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 
 interface JobTypeInterface {
@@ -49,7 +49,6 @@ const HomeSearch = ({ jwtToken }: { jwtToken: string }) => {
 
   return (
     <div className="pt-20 pb-40 bg-gray-900">
-      <ToastContainer />
       <form onSubmit={(e) => jobTypeSubmit(e)} className="px-5 max-w-screen-md mx-auto flex flex-col items-center justify-center gap-4">
         <div className="flex flex-wrap items-center justify-center gap-4">
           <input

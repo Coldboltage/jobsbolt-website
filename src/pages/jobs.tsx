@@ -5,7 +5,7 @@ import { Job } from '../types/job'
 import * as cookie from 'cookie';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const JobsPage = ({ token, pendingInterestJobs, interestedJobs, coverReadyJobs }: { token: string, pendingInterestJobs: Job[], interestedJobs: Job[], coverReadyJobs: Job[] }) => {
   const router = useRouter()
@@ -24,8 +24,7 @@ const JobsPage = ({ token, pendingInterestJobs, interestedJobs, coverReadyJobs }
 
   return (
     <MainLayout>
-      <ToastContainer closeOnClick={false}
-      />
+
       <JobsList jwt={token} pendingInterestJobs={pendingInterestJobs} interestedJobs={interestedJobs} coverReadyJobs={coverReadyJobs} />
     </MainLayout>
   )
