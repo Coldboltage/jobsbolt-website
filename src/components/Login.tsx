@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import router from 'next/router';
+
 import React, { useState } from 'react';
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 
@@ -7,8 +8,6 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-
-  const router = useRouter();
 
   const fetchJwt = async (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault();
