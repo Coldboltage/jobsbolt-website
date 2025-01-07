@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddJobInput from './AddJobInput';
+import AddJobSelect from './AddJobSelect';
+import { JobType } from '../types/jobsType'
 
 const AddJobForm = ({ token }: { token: string }) => {
   const [companyName, setCompanyName] = useState('');
@@ -11,6 +13,29 @@ const AddJobForm = ({ token }: { token: string }) => {
   const [link, setLink] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [jobTypes, setJobTypes] = useState([])
+
+  useEffect(() => {
+    const fetchJobType = async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job-type/find-by-user`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // JWT as a Bearer Token
+          },
+        }
+      );
+      if (response.ok === false) throw new Error(`error finding user jobtypes`)
+      const data = await response.json()
+
+      const jobTypes = data.map((jobType: JobType) => `${jobType.name} ${jobType.location}`)
+      setJobTypes(jobTypes)
+
+    }
+    fetchJobType()
+  }, []);
 
   const addNewJobSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,7 +89,7 @@ const AddJobForm = ({ token }: { token: string }) => {
         <AddJobInput inputName="Company Name" state={companyName} setState={setCompanyName} />
         <AddJobInput inputName="Job Title" state={jobTitle} setState={setJobTitle} />
         <AddJobInput inputName="Job Id" state={jobId} setState={setJobId} />
-        <AddJobInput inputName="Job Type Id" state={jobTypeId} setState={setJobTypeId} />
+        <AddJobSelect inputName="Job Type Id" state={jobTypeId} setState={setJobTypeId} jobTypes={jobTypes} />
         <AddJobInput inputName="Salary" state={salary} setState={setSalary} />
         <AddJobInput inputName="Location" state={location} setState={setLocation} />
         <AddJobInput inputName="Job Page Link" state={link} setState={setLink} />
