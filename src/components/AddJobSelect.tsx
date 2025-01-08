@@ -4,12 +4,14 @@ const AddJobSelect = ({
   inputName,
   state,
   setState,
-  jobTypes,
+  jobTypesNamesList,
+  onSelectCallBack,
 }: {
   inputName: string;
   state: string;
   setState: React.Dispatch<React.SetStateAction<string>>;
-  jobTypes: string[]
+  jobTypesNamesList: string[]
+  onSelectCallBack: (name: string) => void
 }) => {
   return (
     <div className="w-full">
@@ -20,10 +22,13 @@ const AddJobSelect = ({
         id={inputName}
         className="w-full p-3 text-gray-200 bg-gray-800 placeholder-gray-500 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         value={state}
-        onChange={(e) => setState(e.target.value)}
+        onChange={(e) => {
+          setState(e.target.value)
+          onSelectCallBack(e.target.value)
+        }}
         required
       >
-        {jobTypes && jobTypes.map(jobType => (
+        {jobTypesNamesList && jobTypesNamesList.map(jobType => (
           <option key={jobType} value={jobType}>{jobType}</option>
         ))}
       </select>

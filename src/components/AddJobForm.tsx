@@ -10,13 +10,15 @@ const AddJobForm = ({ token, initialJobTypes }: { token: string, initialJobTypes
   const [companyName, setCompanyName] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [jobId, setJobId] = useState('');
-  const [jobTypeId, setJobTypeId] = useState('');
+  const [jobTypeName, setJobTypeName] = useState('');
   const [salary, setSalary] = useState('');
   const [location, setLocation] = useState('');
   const [link, setLink] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [jobTypes, setJobTypes] = useState<string[]>([])
+  const [jobTypesNamesList, setJobTypesNamesList] = useState<string[]>([])
+  const [jobTypes] = useState<JobType[]>(initialJobTypes)
+  const [selectedJobType, setSelectedJobType] = useState<JobType | null>(null)
 
 
   const router = useRouter()
@@ -27,8 +29,7 @@ const AddJobForm = ({ token, initialJobTypes }: { token: string, initialJobTypes
         await new Promise(r => setTimeout(r, 3000))
         router.push('/')
       }
-      const jobTypes = initialJobTypes.map((jobType: JobType) => `${jobType.name} ${jobType.location}`)
-      setJobTypes(jobTypes)
+      setJobTypesNamesList(initialJobTypes.map((jobType: JobType) => `${jobType.name} ${jobType.location}`))
     }
     checkJobTypes()
   }, [initialJobTypes, router]);
@@ -47,7 +48,7 @@ const AddJobForm = ({ token, initialJobTypes }: { token: string, initialJobTypes
         },
         body: JSON.stringify({
           indeedId: jobId,
-          jobTypeId,
+          jobTypeId: selectedJobType?.id,
           name: jobTitle,
           description: jobDescription,
           pay: salary,
@@ -68,7 +69,7 @@ const AddJobForm = ({ token, initialJobTypes }: { token: string, initialJobTypes
       setCompanyName('');
       setJobTitle('');
       setJobId('');
-      setJobTypeId('');
+      setJobTypeName('');
       setSalary('');
       setLocation('');
       setLink('');
@@ -76,7 +77,11 @@ const AddJobForm = ({ token, initialJobTypes }: { token: string, initialJobTypes
     }
   };
 
-  if (jobTypes?.length === 0) {
+  const getCorrectJobType = (name: string): void => {
+    setSelectedJobType(jobTypes[jobTypesNamesList.indexOf(name)])
+  }
+
+  if (jobTypesNamesList?.length === 0) {
     return (
       <div className="py-10 w-full flex max-auto justify-center align-middle my-40">
 
@@ -101,7 +106,7 @@ const AddJobForm = ({ token, initialJobTypes }: { token: string, initialJobTypes
         <AddJobInput inputName="Company Name" state={companyName} setState={setCompanyName} />
         <AddJobInput inputName="Job Title" state={jobTitle} setState={setJobTitle} />
         <AddJobInput inputName="Job Id" state={jobId} setState={setJobId} />
-        <AddJobSelect inputName="Job Type Id" state={jobTypeId} setState={setJobTypeId} jobTypes={jobTypes} />
+        <AddJobSelect inputName="Job Type Id" state={jobTypeName} setState={setJobTypeName} jobTypesNamesList={jobTypesNamesList} onSelectCallBack={getCorrectJobType} />
         <AddJobInput inputName="Salary" state={salary} setState={setSalary} />
         <AddJobInput inputName="Location" state={location} setState={setLocation} />
         <AddJobInput inputName="Job Page Link" state={link} setState={setLink} />
