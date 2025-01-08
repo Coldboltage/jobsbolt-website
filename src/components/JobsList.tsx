@@ -25,7 +25,7 @@ const JobsList = ({
   const [jobUrl, setJobUrl] = useState(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`);
 
   const interestedClicked = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/interested-jobs`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/interested-jobs-slim`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
