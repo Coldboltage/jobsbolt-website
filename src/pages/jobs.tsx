@@ -51,35 +51,46 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   console.log(process.env.NEXT_PUBLIC_SERVER_API_URL)
 
-  const resPendingInterest = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/api/job/pending-interested`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`, // token as a Bearer Token
-    }
-  })
-  const dataPendingInterest = await resPendingInterest.json()
+  // Fire all fetch calls concurrently
+  const [resPendingInterest, resInterestedJobs, resCoverReady] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/api/job/pending-interested-slim`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/api/job/interested-jobs`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/api/job/cover-letter-to-apply`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  ]);
 
-  const resInterestedJobs = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/api/job/interested-jobs`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`, // token as a Bearer Token
-    }
-  })
-  const dataInterestedJobs = await resInterestedJobs.json()
+  // Parse JSON responses after all fetches complete
+  const [dataPendingInterest, dataInterestedJobs, dataCoverReady] = await Promise.all([
+    resPendingInterest.json(),
+    resInterestedJobs.json(),
+    resCoverReady.json(),
+  ]);
 
-  const resCoverReady = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/api/job/cover-letter-to-apply`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`, // token as a Bearer Token
-    }
-  })
-  const dataCoverReady = await resCoverReady.json()
   return {
-    props: { token, pendingInterestJobs: dataPendingInterest, interestedJobs: dataInterestedJobs, coverReadyJobs: dataCoverReady }
-  }
+    props: {
+      token,
+      pendingInterestJobs: dataPendingInterest,
+      interestedJobs: dataInterestedJobs,
+      coverReadyJobs: dataCoverReady,
+    },
+  };
 }
 
 export default JobsPage
