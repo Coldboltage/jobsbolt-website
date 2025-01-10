@@ -58,7 +58,7 @@ const JobsList = ({
         toast.error(`Removed: ${job?.name}`);
       }
 
-      if (jobUrl === `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`) {
+      if (jobUrl === `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested-slim`) {
         setUpdatedPendingInterestJobs(data)
         await interestedClicked()
         setJobs(data);
@@ -85,7 +85,7 @@ const JobsList = ({
           <JobStage
             number={updatedPendingInterestJobs.length > 0 ? updatedPendingInterestJobs.length : 0}
             text="Pending Interest"
-            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`}
+            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested-slim`}
             setJobUrl={setJobUrl}
             jobs={updatedPendingInterestJobs}
             setJobs={setJobs}
