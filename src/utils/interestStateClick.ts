@@ -8,7 +8,6 @@ export const interestStateClick = async (jobId: string, state: boolean, jwt: str
     }
   })
   if (typeof setRefresh === 'function') {
-    console.log("was I fired")
     setRefresh(() => true)
   }
 

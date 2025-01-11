@@ -22,10 +22,10 @@ const JobsList = ({
   const [updatedInterestedJobs, setUpdatedInterestedJobs] = useState(interestedJobs as Job[]);
   const [updatedCoverReadyJobs] = useState(Array.isArray(coverReadyJobs) ? (coverReadyJobs as Job[]) : []);
   const [refresh, setRefresh] = useState(false);
-  const [jobUrl, setJobUrl] = useState(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested`);
+  const [jobUrl, setJobUrl] = useState(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested-slim`);
 
   const interestedClicked = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/interested-jobs-slim`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/interested-jobs`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -44,12 +44,10 @@ const JobsList = ({
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${jwt}`, // JWT as a Bearer Token
+          'Authorization': `Bearer ${jwt}`, // JWT as a Bearer Token
         },
       });
       data = await res.json();
-
-      console.log(jobUrl)
       setRefresh(false);
 
       if (interestedState === true) {
@@ -57,6 +55,7 @@ const JobsList = ({
       } else {
         toast.error(`Removed: ${job?.name}`);
       }
+
 
       if (jobUrl === `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested-slim`) {
         setUpdatedPendingInterestJobs(data)
