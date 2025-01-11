@@ -1,4 +1,5 @@
 import React from 'react';
+import { BsCursorFill } from 'react-icons/bs';
 
 const About = () => {
   return (
@@ -26,7 +27,7 @@ const About = () => {
                 <p className="mt-2 text-gray-400">
                   Searches Indeed for jobs based on your title and location preferences. It scans job listings from the past 14 days
                   to ensure you&apos;re seeing the most relevant and recent opportunities. Saves time by cutting through clutter and surfacing
-                  the latest and most relevant positions.
+                  the latest and most relevant positions. After the first scan, Jobsbolt scans everyday for any new jobs.
                 </p>
               </div>
             </div>
@@ -44,12 +45,7 @@ const About = () => {
                 <p className="mt-2 text-gray-400">
                   After gathering potential jobs from Indeed, Jobsbolt runs a suitability check powered by OpenAI. This involves analyzing your CV,
                   a description of yourself, and your search preferences. Jobsbolt then provides a summary of how well each job aligns with your
-                  profile, along with a suitability score.
-                </p>
-                <p className="mt-2 text-gray-400">
-                  If you&apos;re interested in a job, you can indicate your interest. Then, you write a &quot;userPitch,&quot; which is an unfiltered explanation
-                  of why you&apos;re a great fit for the role and why you&apos;re interested. Don&apos;t worry about formality, Jobsbolt uses this input,
-                  along with your CV and preferences, to craft a tailored cover letter.
+                  profile, along with a suitability score. This comes in the form of a score of 0/100 with a suitability reason. Jobs over 85 will be shown.
                 </p>
               </div>
             </div>
@@ -93,8 +89,29 @@ const About = () => {
                 </p>
               </div>
             </div>
+
+            {/* Feature 5 */}
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <BsCursorFill className="h-6 w-6 text-blue-400" />
+
+              </div>
+              <div className="ml-4">
+                <h3 className="text-2xl font-bold text-white">Manually Add Jobs</h3>
+                <p className="mt-2 text-gray-400">
+                  If there are jobs from another site, you can add them onto Jobsbolt. We can still look at the job and use the suitability critiera that we would generally use for Indeed, but for the new job submission
+                </p>
+                <p className="mt-2 text-gray-400">
+                  In the future, we hope to have an extention that allows you to extra all the information, comes onto Jobsbolt and then adds it to the form for you automatically.
+                </p>
+              </div>
+            </div>
           </div>
+
+
         </section>
+
+
 
         <section>
           <h2 className="text-3xl font-semibold text-white mb-6">Why Build Jobsbolt?</h2>
@@ -134,6 +151,31 @@ const About = () => {
                 <p className="mt-2 text-gray-400">
                   Scrolling through endless job listings to find the perfect match is time-consuming and inefficient.
                   Jobsbolt helps you identify the most suitable jobs based on your CV, saving you time and effort.
+                </p>
+              </div>
+            </div>
+
+            {/* Real Talk */}
+            <div className="flex">
+
+              <div className="ml-4 mt-4">
+
+                <h2 className="text-3xl font-semibold text-white mb-6">What Jobsbolt should be!</h2>
+                <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+                  A message from Alan Reid:
+                </p>
+
+                <p className="mt-6 text-gray-400">
+                  Jobsbolt isn&apos;t meant to fully take you out of the process of looking for a job. It&apos;s meant to make it easier. Instead of having to worry about making sure you&apos;ve got the cover letter done properly, you can be honest and state what you think makes you interested in the job, why you think you would be great for the job, and essentially express yourself the way you would if talking to a friend about the role. While you will have to repeat yourself a bit in each cover letter, it&apos;s going to be a lot quicker. You could voice dictate it if you want and copy the results into the userPitch.
+                </p>
+                <p className="mt-6 text-gray-400">
+                  There&apos;s always going to be a grind when looking for a new job. I built the Indeed scraper so you would be able to at least search for the job once, and then be given the best jobs that apply to you. It&apos;s in your best interest to be as descriptive as possible about yourself within the profile and state what type of job you want. Rather than thinking if you have the skills for the job or not, or if the job is even correct for you, Jobsbolt pretty much figures it out on its own. I&apos;ve added the manual add job feature to the site in case you find another job that you think would be fantastic for you, and this will work a little differently. While using Indeed, all jobs need to be above 85/100, but manual jobs will bypass this, as it is intended to allow you the choice. At the end of the day, AI can still be incorrect and it&apos;s possible that a lot of the jobs being suggested to you might not be as great as stated.
+                </p>
+                <p className="mt-6 text-gray-400">
+                  My hope is that by using this site, you&apos;re able to put in the best effort in your job hunting endeavors, rather than stressing about having to apply every day. I hope Jobsbolt allows you to find the best job for you, help you build a cover letter that sounds somewhat like you very quickly, and then go for it. There&apos;s nothing worse than having to manually add this stuff.
+                </p>
+                <p className="mt-6 text-gray-400">
+                  As of the 11th of January 2025, I too am looking for a job and will be updating my progress while thinking of ideas to better improve Jobsbolt. I have found that for myself, remote jobs are going to be my ticket to a job. The longer it takes to find a job, the more I can improve Jobsbolt, and I will most likely keep supporting this website. For now, this runs on very cheap hardware.
                 </p>
               </div>
             </div>
