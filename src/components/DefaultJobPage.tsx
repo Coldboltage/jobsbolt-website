@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { FaClipboardCheck, FaFileAlt } from 'react-icons/fa';
 import { SiOpenai } from 'react-icons/si';
 import { IoIosInformationCircle } from 'react-icons/io';
+import { CiCircleInfo } from 'react-icons/ci';
 
 const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) => {
   const router = useRouter();
@@ -95,6 +96,17 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
           </div>
         </section>
 
+        {/* AI Suitability Description */}
+        <section className="flex items-start mb-8">
+          <div className="flex-shrink-0">
+            <SiOpenai className="text-blue-400 text-2xl" />
+          </div>
+          <div className="ml-4">
+            <h3 className="text-2xl font-bold text-white">Biggest Area of Improvement for job</h3>
+            <p className="prose-base whitespace-normal leading-relaxed mt-2 text-gray-400">{job.biggerAreaOfImprovement}</p>
+          </div>
+        </section>
+
         {/* Other Information */}
         <section className="flex items-start mb-8">
           <div className="flex-shrink-0">
@@ -103,8 +115,14 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
           <div className="ml-4">
             <h3 className="text-2xl font-bold text-white">Other Information</h3>
             <ul className="mt-4 space-y-2 text-gray-400 leading-relaxed">
-              <li>
-                <strong className="text-white">Job Suitability Score:</strong> {job.suitabilityScore}/100
+              <li className="inline">
+                <strong className="text-white inline-block">Job Suitability Percentile:</strong> {job.suitabilityScore}/100
+                <span className="has-tooltip">
+                  <CiCircleInfo className="inline-block ml-1" />
+                  <span className='tooltip'>You want to be inside the 90th percentile</span>
+
+                </span>
+
               </li>
               <li>
                 <strong className="text-white">Job Suited:</strong> {job.suited ? 'True' : 'False'}
@@ -113,7 +131,7 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
                 <strong className="text-white">Pay:</strong> {job.pay}
               </li>
               <li>
-                <strong className="text-white">Indeed Link:</strong>{' '}
+                <strong className="text-white">Link:</strong>{' '}
                 <Link href={job.link} className="text-blue-400 hover:underline">
                   {job.link}
                 </Link>
