@@ -96,6 +96,17 @@ const DefaultJobPage = ({ initialJob, jwt }: { initialJob: Job; jwt: string }) =
           </div>
         </section>
 
+        {/* AI Suitability Description */}
+        <section className="flex items-start mb-8">
+          <div className="flex-shrink-0">
+            <SiOpenai className="text-blue-400 text-2xl" />
+          </div>
+          <div className="ml-4">
+            <h3 className="text-2xl font-bold text-white">Biggest Area of Improvement for job</h3>
+            <p className="prose-base whitespace-normal leading-relaxed mt-2 text-gray-400">{job.biggerAreaOfImprovement}</p>
+          </div>
+        </section>
+
         {/* Other Information */}
         <section className="flex items-start mb-8">
           <div className="flex-shrink-0">

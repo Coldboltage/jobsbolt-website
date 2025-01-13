@@ -21,4 +21,5 @@ export interface Job {
   scannedLast?: string; // Optional ISO date string of the last scan
   notification: boolean; // Indicates if notifications are enabled
   interested: boolean; // Indicates if the user is interested
+  biggerAreaOfImprovement: string;
 }
