@@ -23,7 +23,7 @@ const Login = () => {
         credentials: 'include', // Include cookies
       });
 
-      if (response.status === 401) {
+      if (response.status === 401 || response.status === 404) {
         setError('Invalid credentials. Please try again.');
         return;
       }
