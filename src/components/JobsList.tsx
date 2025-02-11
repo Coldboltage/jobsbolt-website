@@ -9,11 +9,13 @@ const JobsList = ({
   pendingInterestJobs,
   interestedJobs,
   coverReadyJobs,
+  recentJobs,
 }: {
   jwt: string;
   pendingInterestJobs: Job[];
   interestedJobs: Job[];
   coverReadyJobs: Job[];
+  recentJobs: Job[]
 }) => {
   const [job, setJob] = useState<Job | undefined>(undefined);
   const [interestedState, setInterestedState] = useState<boolean | undefined>();
@@ -21,8 +23,11 @@ const JobsList = ({
   const [updatedPendingInterestJobs, setUpdatedPendingInterestJobs] = useState(pendingInterestJobs as Job[]);
   const [updatedInterestedJobs, setUpdatedInterestedJobs] = useState(interestedJobs as Job[]);
   const [updatedCoverReadyJobs] = useState(Array.isArray(coverReadyJobs) ? (coverReadyJobs as Job[]) : []);
+  const [updatedRecentJobs] = useState(Array.isArray(recentJobs) ? (recentJobs as Job[]) : []);
   const [refresh, setRefresh] = useState(false);
   const [jobUrl, setJobUrl] = useState(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/pending-interested-slim`);
+
+  console.log(updatedRecentJobs)
 
   const interestedClicked = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/interested-jobs`, {
@@ -65,9 +70,6 @@ const JobsList = ({
     };
 
     fetchJobs();
-
-
-
   }, [interestedState, job?.name, jobUrl, jwt, refresh]);
 
   return (
@@ -103,6 +105,14 @@ const JobsList = ({
             url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/cover-letter-to-apply`}
             setJobUrl={setJobUrl}
             jobs={updatedCoverReadyJobs}
+            setJobs={setJobs}
+          />
+          <JobStage
+            number={updatedRecentJobs.length > 0 ? updatedRecentJobs.length : 0}
+            text="Recent Jobs"
+            url={`${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/job/find-recent-jobs-user`}
+            setJobUrl={setJobUrl}
+            jobs={updatedRecentJobs}
             setJobs={setJobs}
           />
         </div>
